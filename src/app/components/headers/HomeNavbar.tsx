@@ -79,9 +79,9 @@ export function HomeNavbar() {
                 </Box>
             </Stack>
         </Container>
-
     </div>
     );
 }
 
 
+// 42 minut 
