@@ -60,7 +60,7 @@
 .home-navbar .hover-line:after {
     display: block;
     content: "";
-    border-bottom: #d7b686;
+    border-bottom: 2px solid #d7b686;
     transform: scaleX(0);
     transition: transform 250ms ease-in-out;
 }
