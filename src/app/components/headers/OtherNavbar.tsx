@@ -1,9 +1,10 @@
 import { Box, Button, Container, Stack } from "@mui/material";
 import React from "react";
 import { NavLink } from "react-router-dom";
+import Basket from "./Basket";
 
 
-export function OtherNavbar() {
+export default function OtherNavbar() {
     const autMember = null;
     return(
     <div className="other-navbar">
@@ -45,7 +46,7 @@ export function OtherNavbar() {
                 </Box>
 
                 {/*BASKET*/}
-
+                    <Basket />
                 {!autMember ? (
                     <Box>
                     <Button variant="contained" className="login-button">
