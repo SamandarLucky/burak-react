@@ -8,42 +8,39 @@ class Test extends Component {
       brand: "Ford",
       model: "Mustang",
       color: "red",
-      year: 1964,
+      year: 1964
     };
   }
-
   changeDetail = () => {
-    this.setState({
-      color: "blue",
-      brand: "Tesla",
-      model: "Model S",
-      year: 2023,
-    });
+    this.setState({color: "blue", brand: "tesla", model:"Model S", year:"2026"});
   };
 
   componentDidMount() {
     console.log("componentDidMount");
-    // runs after first render => RETRIEVE DATA FROM BACKEND SERVER
-  }
+    // runs after first render => RETRIEVE DATA FROM BACKEND
+  };
 
-  componentWillUnmount() {
+   componentWillUnmount() {
     console.log("componentWillUnmount");
-    // runs before component unmount
-  }
+    // runs before component unamount
+  };
 
-  componentDidUpdate() {}
+   componentDidUpdate() {
+    console.log("componentDidUpdate");
+    // runs before component unamount
+  }
 
   render() {
     return (
       <div>
         <h1>My {this.state.brand}</h1>
         <p>
-          Color: {this.state.color} - Model: {this.state.model} from{" "}
-          {this.state.year}.
+          Color: {this.state.color} - Model: {this.state.model} from {" "} {this.state.year}.
         </p>
-        <button type="button" onClick={this.changeDetail}>
-          Change Detail
-        </button>
+        <button
+          type="button"
+          onClick={this.changeDetail}
+        >Change Detail</button>
       </div>
     );
   }
