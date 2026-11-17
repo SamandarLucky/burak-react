@@ -26,10 +26,9 @@ export default function HomePage() {
   const {popularDishes} =useSelector(popularDishesRetriever);
   // Selector: Redux Store => Data
   
-
+  console.log(process.env.REACT_APP_API_URL);
   useEffect(() => {
     // Backend server data request => Data
-    
     // slice: Data => Redux Store
   }, []);
 
