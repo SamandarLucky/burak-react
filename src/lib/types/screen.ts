@@ -5,7 +5,7 @@ import { Product } from "./product";
 
 export interface AppRootState {
     homePage: HomePageState;
-    // productsPage: ProductsPageState;
+    productsPage: ProductsPageState;
 
 }
 
@@ -17,6 +17,10 @@ export interface HomePageState { // barcha malumotlarni o'zida jamlidigan interf
 }
 
 /* PRODUCTS PAGE*/
-
+export interface ProductsPageState {
+    restaurant: Member | null;
+    products: Product[];
+    chosenProduct: Product | null;
+}
 
 /* ORDERS PAGE */
