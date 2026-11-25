@@ -11,6 +11,7 @@ import { Messages } from "../../../lib/config";
 import { LoginInput, MemberInput } from "../../../lib/types/member";
 import MemberService from "../../services/MemberService";
 import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import { useGlobal } from "../../hooks/useGlobal";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -48,6 +49,7 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
   const [memberNick, setMemberNick] = useState<string>("");
   const [memberPhone, setMemberPhone] = useState<string>("");
   const [memberPassword, setMemberPassword] = useState<string>("");
+  const {setAuthMember} = useGlobal();
   /** HANDLERS **/
 
   const handleUsername = (e: T) => {
@@ -84,9 +86,10 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
         memberPhone: memberPhone,
         memberPassword: memberPassword,
       };
+
       const member = new MemberService();
       const result = await member.signup(signupInput);
-
+      setAuthMember(result);
       handleSignupClose();
     } catch(err) {
       console.log(err)
@@ -94,6 +97,7 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
       sweetErrorHandling(err).then();
     }
   }
+
    const handleLoginRequest = async () => {
     try{
       const isFulfill = memberNick !== ""  && memberPassword !== "";
@@ -105,6 +109,7 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
       };
       const member = new MemberService();
       const result = await member.login(loginInput);
+
       handleLoginClose();
     } catch(err) {
       console.log(err)
