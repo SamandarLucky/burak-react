@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import {Dispatch} from "@reduxjs/toolkit"
 import { OrderStatus } from "../../../lib/enums/order.enum";
 import OrderService from "../../services/OrderService";
+import { useGlobal } from "../../hooks/useGlobal";
 
 
 /* REDUX SLICE & SELECTOR */
@@ -25,6 +26,7 @@ const actionDispatch = (dispatch: Dispatch) => ({
 
 export default function OrdersPage() {
   const {setPausedOrders, setProcessOrders, setFinishedOrders } = actionDispatch(useDispatch());
+  const {orderBuilder,} = useGlobal();
   const [value, setValue] = useState("1");
   const [orderInquiry, setOrderInquiry] = useState<OrderInquiry>({
     page: 1,
@@ -50,7 +52,7 @@ export default function OrdersPage() {
     .then((data) => setFinishedOrders(data))
     .catch((err) => console.log(err));
 
-  }, [orderInquiry])
+  }, [orderInquiry, orderBuilder])
 
   
 
@@ -78,8 +80,8 @@ export default function OrdersPage() {
               </Box>
             </Box>
             <Stack className={"order-main-content"}>
-              <PausedOrders />
-              <ProcessOrders />
+              <PausedOrders setValue={setValue}/>
+              <ProcessOrders setValue={setValue}/>
               <FinishedOrders />
             </Stack>
           </TabContext>

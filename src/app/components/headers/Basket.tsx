@@ -22,7 +22,7 @@ interface BasketProps {
 }
 export default function Basket(props: BasketProps) {
   const {cartItems, onAdd, onDelete, onDeleteAll, onRemove} = props;
-  const {authMember} = useGlobal();
+  const {authMember, setOrderBuilder} = useGlobal();
   const history = useHistory();
   const itemsPrice = cartItems.reduce((a: number, c: CartItem) => a + c.quantity*c.price, 0)
   const shippingCost: number = itemsPrice < 100 ? 5 : 0;
@@ -47,6 +47,7 @@ export default function Basket(props: BasketProps) {
       onDeleteAll();
       // REFRESH VIX CONTEXT
       history.push("/orders");
+      setOrderBuilder(new Date());
     } catch(err) {
       console.log(err)
       sweetErrorHandling(err).then();
