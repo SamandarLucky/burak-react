@@ -8,7 +8,10 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useHistory } from "react-router-dom";
 import { CartItem } from "../../../lib/types/search";
-import { serverApi } from "../../../lib/config";
+import { Messages, serverApi } from "../../../lib/config";
+import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import { useGlobal } from "../../hooks/useGlobal";
+import OrderService from "../../services/OrderService";
 
 interface BasketProps {
   cartItems: CartItem[];
@@ -19,7 +22,7 @@ interface BasketProps {
 }
 export default function Basket(props: BasketProps) {
   const {cartItems, onAdd, onDelete, onDeleteAll, onRemove} = props;
-  const authMember = null;
+  const {authMember} = useGlobal();
   const history = useHistory();
   const itemsPrice = cartItems.reduce((a: number, c: CartItem) => a + c.quantity*c.price, 0)
   const shippingCost: number = itemsPrice < 100 ? 5 : 0;
@@ -35,6 +38,21 @@ export default function Basket(props: BasketProps) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const proceedOrderHandler = async () => {
+    try {
+      handleClose();
+      if(!authMember) throw new Error(Messages.error2);
+      const order = new OrderService();
+      await order.createOrder(cartItems); 
+      onDeleteAll();
+      // REFRESH VIX CONTEXT
+      history.push("/orders");
+    } catch(err) {
+      console.log(err)
+      sweetErrorHandling(err).then();
+    }
+  }
+
 
   return (
     <Box className={"hover-line"}>
@@ -125,7 +143,10 @@ export default function Basket(props: BasketProps) {
           {cartItems.length !== 0 ? ( 
             <Box className={"basket-order"}>
             <span className={"price"}>Total: ${totalPrice} ({itemsPrice} + {shippingCost})</span>
-            <Button startIcon={<ShoppingCartIcon />} variant={"contained"}>
+            <Button 
+            onClick={proceedOrderHandler}
+            startIcon={<ShoppingCartIcon />} 
+            variant={"contained"}>
               Order
             </Button>
             </Box>) : ("")}
